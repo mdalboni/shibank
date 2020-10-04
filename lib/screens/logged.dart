@@ -79,7 +79,7 @@ class _LoggedPageState extends State<LoggedPage> {
                     Expanded(
                       flex: 2,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text('Olá,'),
                           Text(user.name),

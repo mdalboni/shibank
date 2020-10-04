@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:animated_widgets/animated_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:shibank/widgets/buttons/2fa_buttons.dart';
 import 'package:shibank/widgets/custom_painter.dart';
 import 'package:shibank/widgets/forms/login_form.dart';
@@ -22,6 +25,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final maxHeight = MediaQuery.of(context).size.height;
+    final actualHeight = maxHeight - MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
         body: SizedBox.expand(
           child: Stack(
@@ -32,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.05,
+                top: actualHeight * 0.05,
                 width: MediaQuery.of(context).size.width,
                 child: Center(
                   child: GestureDetector(
@@ -47,18 +52,19 @@ class _LoginPageState extends State<LoginPage> {
                       shakeAngle: Rotation.deg(y: 40, z: 0),
                       curve: Curves.linear,
                       child: Hero(
-                        child: Logo(),
+                        child: Logo(height: actualHeight * 0.2),
                         tag: 'logo',
                       ),
                     ),
                   ),
                 ),
               ),
-              Positioned(
-                top: MediaQuery.of(context).size.height * 0.40,
-                left: MediaQuery.of(context).size.height * 0.10,
-                right: MediaQuery.of(context).size.height * 0.10,
+              Positioned.fill(
+                top: actualHeight * 0.37,
+                left: MediaQuery.of(context).size.width * 0.10,
+                right: MediaQuery.of(context).size.width * 0.10,
                 child: SingleChildScrollView(
+                  padding: EdgeInsets.only(bottom: 30),
                   child: LoginForm(
                     field1: 'Agencia',
                     field2: 'Conta',

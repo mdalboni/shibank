@@ -46,7 +46,7 @@ class _SplashPageState extends State<SplashPage> {
               width: MediaQuery.of(context).size.width,
               child: Center(
                 child: Hero(
-                  child: Logo(),
+                  child: Logo(height: 200.0,),
                   tag: 'logo',
                 ),
               ),

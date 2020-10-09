@@ -1,11 +1,11 @@
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shibank/models/user.dart';
 import 'package:shibank/routes.dart';
 import 'package:shibank/services/validators/text_validator.dart';
 import 'package:shibank/services/validators/validator_manager.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginForm extends StatefulWidget {
   final String field1;
@@ -21,6 +21,10 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   _FormController ctrl;
   final _formKey = GlobalKey<FormState>();
+  final FocusNode field1Focus = FocusNode();
+  final FocusNode field2Focus = FocusNode();
+  final FocusNode passwordFocus = FocusNode();
+
   bool _inProgress = false;
 
   @override
@@ -48,6 +52,9 @@ class _LoginFormState extends State<LoginForm> {
         border: OutlineInputBorder(),
         labelText: widget.field1,
       ),
+      focusNode: field1Focus,
+      onFieldSubmitted: (value) => field2Focus.requestFocus(),
+      textInputAction: TextInputAction.go,
     );
 
     final field2 = TextFormField(
@@ -63,6 +70,9 @@ class _LoginFormState extends State<LoginForm> {
         border: OutlineInputBorder(),
         labelText: widget.field2,
       ),
+      focusNode: field2Focus,
+      onFieldSubmitted: (value) => passwordFocus.requestFocus(),
+      textInputAction: TextInputAction.go,
     );
 
     final password = TextFormField(
@@ -77,6 +87,66 @@ class _LoginFormState extends State<LoginForm> {
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         labelText: widget.password,
+      ),
+      focusNode: passwordFocus,
+      onFieldSubmitted: (value) => login(),
+      textInputAction: TextInputAction.send,
+    );
+
+    Widget buttonContent = Text(
+      'Acessar',
+      style: Theme.of(context).textTheme.button,
+    );
+
+    Widget loadingContent = Container(
+        width: 25,
+        height: 25,
+        child: SpinKitDoubleBounce(
+          color: Colors.white,
+        )
+      // CircularProgressIndicator(
+      //     backgroundColor: Colors.white,
+      //     valueColor: new AlwaysStoppedAnimation<Color>(Colors.deepPurple),
+      //     strokeWidth: 5,
+      //   )
+    );
+
+    Widget submitButton = AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      width: _inProgress ? 50 : MediaQuery.of(context).size.width,
+      height: 50,
+      child: RaisedButton(
+        padding: EdgeInsets.all(0),
+        child: !_inProgress ? buttonContent : loadingContent,
+        color: Colors.deepPurple,
+        disabledColor: Colors.deepPurple[400],
+        shape: !_inProgress
+            ? null
+            : RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50.0),
+              ),
+        onPressed: _inProgress ? null : login,
+      ),
+    );
+
+    Widget createAccButton = OutlineButton(
+      borderSide: BorderSide(
+        color: Colors.deepPurple,
+        width: 2,
+        style: BorderStyle.solid,
+      ),
+      padding: EdgeInsets.only(left: 25, right: 25),
+      shape: new RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(30.0),
+      ),
+      onPressed: _inProgress ? null : () {},
+      child: Text(
+        "Criar Conta",
+        style: TextStyle(
+          color: Colors.deepPurple,
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
 
@@ -93,66 +163,17 @@ class _LoginFormState extends State<LoginForm> {
               Padding(
                 padding: EdgeInsets.all(5),
               ),
+              widget.field2 != null ? field2 : Container(height: 0),
               widget.field2 != null
-                  ? field2
-                  : Container(
-                      height: 0,
-                    ),
-              widget.field2 != null
-                  ? Padding(
-                      padding: EdgeInsets.all(5),
-                    )
-                  : Container(
-                      height: 0,
-                    ),
+                  ? Padding(padding: EdgeInsets.all(5))
+                  : Container(height: 0),
               password,
+              Padding(padding: EdgeInsets.all(5)),
+              submitButton,
               Padding(
                 padding: EdgeInsets.all(5),
               ),
-              ArgonButton(
-                height: 50,
-                width: 500,
-                borderRadius: 5.0,
-                color: Colors.deepPurple,
-                animationDuration: Duration(milliseconds: 500),
-                child: Text(
-                  "Entrar",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
-                ),
-                loader: Container(
-                  padding: EdgeInsets.all(10),
-                  child: SpinKitHourGlass(
-                    color: Colors.white,
-                  ),
-                ),
-                onTap: login,
-              ),
-              Padding(
-                padding: EdgeInsets.all(5),
-              ),
-              OutlineButton(
-                borderSide: BorderSide(
-                  color: Colors.deepPurple,
-                  width: 2,
-                  style: BorderStyle.solid,
-                ),
-                padding: EdgeInsets.only(left: 25, right: 25),
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {},
-                child: Text(
-                  "Criar Conta",
-                  style: TextStyle(
-                    color: Colors.deepPurple,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
+              createAccButton,
             ],
           ),
         ),
@@ -160,20 +181,16 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  login(startLoading, stopLoading, btnState) async {
+  login() async {
     bool isValid = _formKey.currentState.validate();
-    bool isIdle = btnState == ButtonState.Idle;
-    if (!isValid || !isIdle) return;
+    if (!isValid) return;
     setState(() {
       _inProgress = !_inProgress;
     });
-    startLoading();
     await Future.delayed(Duration(seconds: 2));
     if (ctrl.field1.text == '123') {
       Get.toNamed(Routes.logged, arguments: User.generateUser('123'));
-      return;
     }
-    stopLoading();
     setState(() {
       _inProgress = !_inProgress;
     });

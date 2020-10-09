@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppTheme {
-  AppTheme._();
-
+class ColorConstants {
   static const Color nearlyWhite = Color(0xFFFAFAFA);
   static const Color white = Color(0xFFFFFFFF);
   static const Color background = Color(0xFFF2F3F8);
@@ -19,9 +17,15 @@ class AppTheme {
   static const Color deactivatedText = Color(0xFF767676);
   static const Color dismissibleBackground = Color(0xFF364A54);
   static const Color spacer = Color(0xFFF2F2F2);
+}
+
+class AppTheme {
+  AppTheme._();
+
   static const String fontName = 'Roboto';
 
   static const TextTheme textTheme = TextTheme(
+    button: button,
     headline4: display1,
     headline5: headline,
     headline6: title,
@@ -31,13 +35,21 @@ class AppTheme {
     caption: caption,
   );
 
+  static const TextStyle button = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+    letterSpacing: 0.4,
+    color: ColorConstants.nearlyWhite,
+  );
+
   static const TextStyle display1 = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
     fontSize: 36,
     letterSpacing: 0.4,
     height: 0.9,
-    color: darkerText,
+    color: ColorConstants.darkerText,
   );
 
   static const TextStyle headline = TextStyle(
@@ -45,7 +57,7 @@ class AppTheme {
     fontWeight: FontWeight.bold,
     fontSize: 24,
     letterSpacing: 0.27,
-    color: darkerText,
+    color: ColorConstants.darkerText,
   );
 
   static const TextStyle title = TextStyle(
@@ -53,7 +65,7 @@ class AppTheme {
     fontWeight: FontWeight.bold,
     fontSize: 16,
     letterSpacing: 0.18,
-    color: darkerText,
+    color: ColorConstants.darkerText,
   );
 
   static const TextStyle subtitle = TextStyle(
@@ -61,7 +73,7 @@ class AppTheme {
     fontWeight: FontWeight.w400,
     fontSize: 14,
     letterSpacing: -0.04,
-    color: darkText,
+    color: ColorConstants.darkText,
   );
 
   static const TextStyle body2 = TextStyle(
@@ -69,7 +81,7 @@ class AppTheme {
     fontWeight: FontWeight.w400,
     fontSize: 14,
     letterSpacing: 0.2,
-    color: darkText,
+    color: ColorConstants.darkText,
   );
 
   static const TextStyle body1 = TextStyle(
@@ -77,7 +89,7 @@ class AppTheme {
     fontWeight: FontWeight.w400,
     fontSize: 16,
     letterSpacing: -0.05,
-    color: darkText,
+    color: ColorConstants.darkText,
   );
 
   static const TextStyle caption = TextStyle(
@@ -85,6 +97,6 @@ class AppTheme {
     fontWeight: FontWeight.w400,
     fontSize: 12,
     letterSpacing: 0.2,
-    color: lightText, // was lightText
+    color: ColorConstants.lightText, // was lightText
   );
 }

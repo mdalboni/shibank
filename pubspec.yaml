@@ -10,12 +10,12 @@ dependencies:
   flutter:
     sdk: flutter
   get:
-  argon_buttons_flutter:
   flutter_spinkit:
   unicorndial:
   animated_widgets:
   faker:
   keyboard_visibility:
+  curved_navigation_bar:
 
 dev_dependencies:
   flutter_test:

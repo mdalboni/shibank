@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:animated_widgets/animated_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:shibank/widgets/buttons/2fa_buttons.dart';
 import 'package:shibank/widgets/custom_painter.dart';
 import 'package:shibank/widgets/forms/login_form.dart';
@@ -61,10 +58,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Positioned.fill(
                 top: actualHeight * 0.37,
-                left: MediaQuery.of(context).size.width * 0.10,
-                right: MediaQuery.of(context).size.width * 0.10,
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.only(bottom: 30),
+                  padding: EdgeInsets.only(
+                    bottom: 30,
+                    left: MediaQuery.of(context).size.width * 0.10,
+                    right: MediaQuery.of(context).size.width * 0.10,
+                  ),
                   child: LoginForm(
                     field1: 'Agencia',
                     field2: 'Conta',

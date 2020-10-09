@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shibank/routes.dart';
+import 'package:shibank/theme.dart';
 
 void main() {
   runApp(App());
@@ -27,6 +28,8 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: AppTheme.textTheme,
+
       ),
       initialRoute: Routes.splash,
       getPages: Routes.routes,

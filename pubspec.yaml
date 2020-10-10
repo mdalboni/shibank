@@ -15,7 +15,8 @@ dependencies:
   animated_widgets:
   faker:
   keyboard_visibility:
-  curved_navigation_bar:
+  toggle_bar:
+  auto_size_text:
 
 dev_dependencies:
   flutter_test:
@@ -23,6 +24,11 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family:  ShibankIcons
+      fonts:
+        - asset: fonts/ShibankIcons.ttf
 
   assets:
     - assets/images/

@@ -1,509 +1,292 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:faker/faker.dart';
+import 'package:flutter/material.dart';
+import 'package:shibank/models/credit_card.dart';
 import 'package:shibank/theme.dart';
 import 'package:shibank/utils/hexcolor.dart';
 
+import 'accordion.dart';
+
 class CreditStatsContainer extends StatelessWidget {
-  const CreditStatsContainer({Key key}) : super(key: key);
+  final AnimationController animationController;
+  final Animation animation;
+  final CreditCard creditCard;
+
+  const CreditStatsContainer(
+      {Key key, this.animationController, this.animation, this.creditCard})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 24,
-        right: 24,
-        top: 16,
-        bottom: 18,
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: ColorConstants.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8.0),
-              bottomLeft: Radius.circular(8.0),
-              bottomRight: Radius.circular(8.0),
-              topRight: Radius.circular(68.0)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: ColorConstants.grey.withOpacity(0.2),
-                offset: Offset(1.1, 1.1),
-                blurRadius: 10.0),
-          ],
-        ),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8, right: 8, top: 4),
-                      child: Column(
+    return AnimatedBuilder(
+      animation: animationController,
+      builder: (BuildContext context, Widget child) {
+        return FadeTransition(
+          opacity: animation,
+          child: new Transform(
+            transform: new Matrix4.translationValues(
+                0.0, 30 * (1.0 - animation.value), 0.0),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: 24, right: 24, top: 16, bottom: 18),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: ColorConstants.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8.0),
+                      bottomLeft: Radius.circular(8.0),
+                      bottomRight: Radius.circular(8.0),
+                      topRight: Radius.circular(68.0)),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: ColorConstants.grey.withOpacity(0.2),
+                        offset: Offset(1.1, 1.1),
+                        blurRadius: 10.0),
+                  ],
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 16, left: 16, right: 16),
+                      child: Row(
                         children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                height: 48,
-                                width: 2,
-                                decoration: BoxDecoration(
-                                  color: HexColor('#87A0E5').withOpacity(0.5),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4.0)),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 4, bottom: 2),
-                                      child: Text(
-                                        'Livre',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          letterSpacing: -0.1,
-                                          color: ColorConstants.grey
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: <Widget>[
-                                        SizedBox(
-                                          width: 28,
-                                          height: 28,
-                                          child: Image.asset(
-                                            "assets/images/logo.png",
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 4, bottom: 3),
-                                          child: Text('',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 16,
-                                              color: ColorConstants.darkerText,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 4, bottom: 3),
-                                          child: Text(
-                                            'Kcal',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 12,
-                                              letterSpacing: -0.2,
-                                              color: ColorConstants.grey
-                                                  .withOpacity(0.5),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                height: 48,
-                                width: 2,
-                                decoration: BoxDecoration(
-                                  color: HexColor('#F56E98').withOpacity(0.5),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4.0)),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 4, bottom: 2),
-                                      child: Text(
-                                        'Burned',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          letterSpacing: -0.1,
-                                          color: ColorConstants.grey
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: <Widget>[
-                                        SizedBox(
-                                          width: 28,
-                                          height: 28,
-                                          child: Image.asset(
-                                            "assets/images/logo.png",
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 4, bottom: 3),
-                                          child: Text(
-                                            '',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 16,
-                                              color: ColorConstants.darkerText,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 8, bottom: 3),
-                                          child: Text(
-                                            'Kcal',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 12,
-                                              letterSpacing: -0.2,
-                                              color: ColorConstants.grey
-                                                  .withOpacity(0.5),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16),
-                    child: Center(
-                      child: Stack(
-                        overflow: Overflow.visible,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                color: ColorConstants.white,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(100.0),
-                                ),
-                                border: new Border.all(
-                                    width: 4,
-                                    color: ColorConstants.nearlyDarkBlue
-                                        .withOpacity(0.2)),
-                              ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8, right: 0, top: 4),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Text(
-                                    '',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 24,
-                                      letterSpacing: 0.0,
-                                      color: ColorConstants.nearlyDarkBlue,
-                                    ),
+                                  topRowLabels(
+                                    'Fatura atual',
+                                    creditCard.usedMonth,
                                   ),
-                                  Text(
-                                    'Kcal left',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                      letterSpacing: 0.0,
-                                      color:
-                                          ColorConstants.grey.withOpacity(0.5),
-                                    ),
-                                  ),
+                                  SizedBox(height: 8),
+                                  topRowLabels('Fatura total', creditCard.used)
                                 ],
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: CustomPaint(
-                              painter: CurvePainter(
-                                  colors: [
-                                    ColorConstants.nearlyDarkBlue,
-                                    HexColor("#8A98E8"),
-                                    HexColor("#8A98E8")
-                                  ],
-                                  angle: 140 +
-                                      (360 - 140) * (1.0 - 0)),
-                              child: SizedBox(
-                                width: 108,
-                                height: 108,
-                              ),
-                            ),
-                          )
+                          roundedGraph()
                         ],
                       ),
                     ),
-                  )
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 24, right: 24, top: 8, bottom: 8),
+                      child: Container(
+                        height: 2,
+                        decoration: BoxDecoration(
+                          color: ColorConstants.background,
+                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 24, right: 24, top: 8, bottom: 16),
+                      child: ConstrainedBox(
+                        constraints:
+                            BoxConstraints(minHeight: 50, maxHeight: 250),
+                        child: new Scrollbar(
+                          child: buildWrap(),
+                          thickness: 2,
+                          radius: Radius.circular(10),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
+          ),
+        );
+      },
+    );
+  }
+
+  double regraDeTres(min, total) {
+    return (min / total) * 100;
+  }
+
+  SingleChildScrollView buildWrap() {
+    final List<Color> cores = [Colors.red, Colors.yellow, Colors.green];
+    final List<Widget> charges = [];
+    for (int i = 0; i < creditCard.charges.length; i++) {
+      charges.add(
+        ChargesAccordion(
+          tagName: creditCard.charges[i].tag,
+          percentage:
+              regraDeTres(creditCard.charges[i].value, creditCard.used).toInt(),
+          color: cores[Faker().randomGenerator.integer(2)],
+          animation: animation,
+        ),
+      );
+      charges.add(
+        Row(
+          children: [
+            Expanded(child: Container()),
+            Container(
+              color: Colors.black.withOpacity(0.08),
+              width: 35,
+              height: 1,
+            ),
+            Expanded(child: Container()),
+          ],
+        ),
+      );
+    }
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: charges,
+      ),
+    );
+  }
+
+  Padding roundedGraph() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 0),
+      child: Center(
+        child: Stack(
+          overflow: Overflow.visible,
+          children: <Widget>[
             Padding(
-              padding:
-                  const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
+              padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: 2,
+                width: 130,
+                height: 130,
                 decoration: BoxDecoration(
-                  color: ColorConstants.background,
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                  color: ColorConstants.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(130.0),
+                  ),
+                  border: new Border.all(
+                      width: 4,
+                      color: ColorConstants.nearlyDarkBlue.withOpacity(0.2)),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 5, right: 5),
+                      child: AutoSizeText(
+                        'R\$ ${(creditCard.remaining * animation.value).toStringAsFixed(2)}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontName,
+                          fontWeight: FontWeight.normal,
+                          color: ColorConstants.nearlyDarkBlue,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      'Livres',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontName,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        letterSpacing: 0.0,
+                        color: ColorConstants.grey.withOpacity(0.5),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 8, bottom: 16),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Carbs',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            letterSpacing: -0.2,
-                            color: ColorConstants.darkText,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Container(
-                            height: 4,
-                            width: 70,
-                            decoration: BoxDecoration(
-                              color: HexColor('#87A0E5').withOpacity(0.2),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4.0)),
-                            ),
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  width: ((70 / 1.2) * 1),
-                                  height: 4,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(colors: [
-                                      HexColor('#87A0E5'),
-                                      HexColor('#87A0E5').withOpacity(0.5),
-                                    ]),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(4.0)),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 6),
-                          child: Text(
-                            '12g left',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12,
-                              color: ColorConstants.grey.withOpacity(0.5),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Protein',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                letterSpacing: -0.2,
-                                color: ColorConstants.darkText,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: Container(
-                                height: 4,
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  color: HexColor('#F56E98').withOpacity(0.2),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4.0)),
-                                ),
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: ((70 / 2) *
-                                          1),
-                                      height: 4,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(colors: [
-                                          HexColor('#F56E98').withOpacity(0.1),
-                                          HexColor('#F56E98'),
-                                        ]),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(4.0)),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 6),
-                              child: Text(
-                                '30g left',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontName,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12,
-                                  color: ColorConstants.grey.withOpacity(0.5),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Fat',
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                letterSpacing: -0.2,
-                                color: ColorConstants.darkText,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 0, top: 4),
-                              child: Container(
-                                height: 4,
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  color: HexColor('#F1B440').withOpacity(0.2),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4.0)),
-                                ),
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 70,
-                                      height: 4,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(colors: [
-                                          HexColor('#F1B440').withOpacity(0.1),
-                                          HexColor('#F1B440'),
-                                        ]),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(4.0)),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 6),
-                              child: Text(
-                                '10g left',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontName,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12,
-                                  color: ColorConstants.grey.withOpacity(0.5),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+              padding: const EdgeInsets.all(4.0),
+              child: CustomPaint(
+                painter: CurvePainter(colors: [
+                  ColorConstants.nearlyDarkBlue,
+                  HexColor("#8A98E8"),
+                  HexColor("#8A98E8")
+                ], angle: 140 + (360 - 140) * (1.0 - animation.value)),
+                child: SizedBox(
+                  width: 138,
+                  height: 138,
+                ),
               ),
             )
           ],
         ),
       ),
+    );
+  }
+
+  Row topRowLabels(String label, double value) {
+    return Row(
+      children: <Widget>[
+        Container(
+          height: 48,
+          width: 2,
+          decoration: BoxDecoration(
+            color: Colors.deepPurple.withOpacity(0.8),
+            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 4, bottom: 2),
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: AppTheme.fontName,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    letterSpacing: -0.1,
+                    color: Colors.deepPurple.withOpacity(0.8),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, bottom: 3),
+                    child: Text(
+                      'R\$',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontName,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                        letterSpacing: -0.2,
+                        color: ColorConstants.grey.withOpacity(0.5),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4, bottom: 3),
+                    child: Text(
+                      '${(value * animation.value).toStringAsFixed(2)}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontName,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        color: ColorConstants.darkerText,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        )
+      ],
     );
   }
 }

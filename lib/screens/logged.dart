@@ -47,7 +47,7 @@ class _LoggedPageState extends State<LoggedPage> with TickerProviderStateMixin {
     switch (selected) {
       case 0:
         return homePage();
-      case 1:
+      case 3:
         return Container(
           color: Colors.deepPurple,
           height: MediaQuery.of(context).size.height,
@@ -57,11 +57,21 @@ class _LoggedPageState extends State<LoggedPage> with TickerProviderStateMixin {
           color: Colors.grey,
           height: MediaQuery.of(context).size.height,
         );
-      case 3:
-        animationController.reverse();
+      case 1:
+        animationController.reset();
+        animationController.forward();
         return Container(
+          color: Colors.black,
           height: MediaQuery.of(context).size.height,
-          child: CreditStatsContainer(),
+          child: CreditStatsContainer(
+            animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                CurvedAnimation(
+                    parent: animationController,
+                    curve: Interval((1 / 9) * 1, 1.0,
+                        curve: Curves.fastOutSlowIn))),
+            animationController: animationController,
+            creditCard: user.creditCard,
+          ),
         );
       default:
         return Container();

@@ -7,7 +7,7 @@ class User {
   final String email;
   final String phone;
   final Account account;
-  final CreditCard creditCard;
+  CreditCard creditCard;
 
   User({this.name, this.email, this.phone, this.account, this.creditCard});
 

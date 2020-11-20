@@ -107,10 +107,6 @@ class CreditStatsContainer extends StatelessWidget {
     );
   }
 
-  double regraDeTres(min, total) {
-    return (min / total) * 100;
-  }
-
   SingleChildScrollView buildWrap() {
     final List<Color> cores = [Colors.red, Colors.yellow, Colors.green];
     final List<Widget> charges = [];
@@ -118,8 +114,7 @@ class CreditStatsContainer extends StatelessWidget {
       charges.add(
         ChargesAccordion(
           tagName: creditCard.charges[i].tag,
-          percentage:
-              regraDeTres(creditCard.charges[i].value, creditCard.used).toInt(),
+          percentage: 5,
           color: cores[Faker().randomGenerator.integer(2)],
           animation: animation,
         ),
@@ -152,7 +147,7 @@ class CreditStatsContainer extends StatelessWidget {
       padding: const EdgeInsets.only(right: 0),
       child: Center(
         child: Stack(
-          overflow: Overflow.visible,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -202,11 +197,14 @@ class CreditStatsContainer extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: CustomPaint(
-                painter: CurvePainter(colors: [
-                  ColorConstants.nearlyDarkBlue,
-                  HexColor("#8A98E8"),
-                  HexColor("#8A98E8")
-                ], angle: 140 + (360 - 140) * (1.0 - animation.value)),
+                painter: CurvePainter(
+                  colors: [
+                    ColorConstants.nearlyDarkBlue,
+                    HexColor("#8A98E8"),
+                    HexColor("#8A98E8")
+                  ],
+                  angle: angle(),
+                ),
                 child: SizedBox(
                   width: 138,
                   height: 138,
@@ -217,6 +215,15 @@ class CreditStatsContainer extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  double angle() {
+    final angle = calculateAngleFromCredit();
+    return angle + (360 - angle) * (1.0 - animation.value);
+  }
+
+  int calculateAngleFromCredit() {
+    return (creditCard.used * 360) ~/ creditCard.max;
   }
 
   Row topRowLabels(String label, double value) {

@@ -26,7 +26,7 @@ class Charge {
   static generateDate() {
     DateTime now = new DateTime.now();
     final day = Faker().randomGenerator.integer(now.day, min: 1);
-    return '$day-$now.month-${now.year}';
+    return '$day-${now.month}-${now.year}';
   }
 
   static generateValue({max = 150, min = 0}) {

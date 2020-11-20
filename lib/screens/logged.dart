@@ -7,6 +7,7 @@ import 'package:shibank/models/user.dart';
 import 'package:shibank/theme.dart';
 import 'package:shibank/utils/shibank_icons_icons.dart';
 import 'package:shibank/widgets/containers/credit_stats_container.dart';
+import 'package:shibank/widgets/containers/drag_container.dart';
 import 'package:shibank/widgets/containers/hero_container.dart';
 
 class LoggedPage extends StatefulWidget {
@@ -56,6 +57,7 @@ class _LoggedPageState extends State<LoggedPage> with TickerProviderStateMixin {
         return Container(
           color: Colors.grey,
           height: MediaQuery.of(context).size.height,
+          child: DragFatherWidget(),
         );
       case 1:
         animationController.reset();

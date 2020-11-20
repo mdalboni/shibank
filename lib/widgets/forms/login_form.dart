@@ -96,6 +96,7 @@ class _LoginFormState extends State<LoginForm> {
     Widget buttonContent = Text(
       'Acessar',
       style: Theme.of(context).textTheme.button,
+      overflow: TextOverflow.fade,
     );
 
     Widget loadingContent = Container(

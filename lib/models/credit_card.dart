@@ -2,16 +2,16 @@ import 'package:faker/faker.dart';
 import 'package:shibank/models/charge.dart';
 
 class CreditCard {
-  final double max;
-  final double used;
-  final double usedMonth;
-  final List<Charge> charges;
+  double max;
+  double used;
+  double usedMonth;
+  List<Charge> charges;
 
   CreditCard({this.max, this.used, this.usedMonth, this.charges});
 
   factory CreditCard.generateCreditCard() {
     List<Charge> charges = [];
-    for (int i = 0; i < Faker().randomGenerator.integer(20,min: 10); i++) {
+    for (int i = 0; i < Faker().randomGenerator.integer(20, min: 10); i++) {
       charges.add(Charge.generateCharge());
     }
     return CreditCard(
@@ -27,7 +27,10 @@ class CreditCard {
   static int randInt({max = 3000, min = 2000}) =>
       Faker().randomGenerator.integer(max, min: min);
 
-  get remaining => max - used;
+  get remaining {
+    final value = max - used;
+    return value > 0 ? value : 0.00;
+  }
 
   @override
   String toString() {

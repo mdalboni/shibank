@@ -11,10 +11,14 @@ void main() {
 }
 
 class App extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final brightness = Platform.isAndroid ? Brightness.dark : Brightness.light;
+    var brightness = Brightness.dark;
+    try {
+      if (Platform.isIOS) {
+        brightness = Brightness.light;
+      }
+    } catch (e) {}
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
@@ -29,7 +33,6 @@ class App extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme: AppTheme.textTheme,
-
       ),
       initialRoute: Routes.splash,
       getPages: Routes.routes,
